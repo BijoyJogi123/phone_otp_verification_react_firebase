@@ -17,18 +17,16 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignup();
-          },
-          "expired-callback": () => {},
-        },
-        auth
-      );
+     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
+                'size': 'invisible',
+                'callback': (response) => {
+                  // reCAPTCHA solved, allow signInWithPhoneNumber.
+                  onSignup();
+                },
+                "expired-callback": () => {  console.log("yea camptureeeeeeeeeeeeeee error")},
+                
+                
+              });
     }
   }
 
@@ -72,7 +70,7 @@ const App = () => {
     <section className="bg-emerald-500 flex items-center justify-center h-screen">
       <div>
         <Toaster toastOptions={{ duration: 4000 }} />
-        <div id="recaptcha-container"></div>
+        <div id="sign-in-button"></div>
         {user ? (
           <h2 className="text-center text-white font-medium text-2xl">
             👍Login Success
